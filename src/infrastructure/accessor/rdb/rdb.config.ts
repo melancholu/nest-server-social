@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
+import { UserEntity } from 'src/infrastructure/entity';
 
 export const typeOrmOptions: TypeOrmModuleAsyncOptions = {
   inject: [ConfigService],
@@ -11,7 +12,7 @@ export const typeOrmOptions: TypeOrmModuleAsyncOptions = {
       password: configService.get('POSTGRES_PASSWORD'),
       port: +configService.get('POSTGRES_PORT'),
       username: configService.get('POSTGRES_USER'),
-      entities: [],
+      entities: [UserEntity],
       extra: {
         /**
          * https://node-postgres.com/api/pool
@@ -19,6 +20,7 @@ export const typeOrmOptions: TypeOrmModuleAsyncOptions = {
         idleTimeoutMillis: 3000,
         max: 30,
       },
+      synchronize: true,
     };
   },
 };
