@@ -7,17 +7,30 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UserNotFoundException } from 'src/core/exception';
-import { User } from 'src/domain/user';
+import { User, UserPagination } from 'src/domain/user';
 import { UserService } from './user.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('/')
+  async getList(@Query('page') page = 1): Promise<UserPagination> {
+    try {
+      if (Number.isNaN(page)) {
+        return this.userService.getList(1);
+      }
+      return this.userService.getList(page);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
 
   @Get('/:uuid')
   async getOne(@Param('uuid') uuid: string): Promise<User> {

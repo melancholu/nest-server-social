@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsString } from 'class-validator';
 
 export class User {
   readonly uuid: string;
@@ -15,7 +15,7 @@ export class User {
 
   readonly imageUrl: string;
 
-  readonly created: string;
+  readonly created: Date;
 
   constructor(partial?: Partial<User>) {
     Object.assign(this, partial);

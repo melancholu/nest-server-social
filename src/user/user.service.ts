@@ -1,5 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { USER_REPOSITORY, UserRepository, User } from 'src/domain/user';
+import {
+  USER_REPOSITORY,
+  UserRepository,
+  User,
+  UserPagination,
+} from 'src/domain/user';
+import { PAGE_NUM } from './user.constant';
 
 @Injectable()
 export class UserService {
@@ -18,5 +24,21 @@ export class UserService {
 
   getOneByEmail(email: string): Promise<User> {
     return this.userRepository.getOneByEmail(email);
+  }
+
+  async getList(page: number): Promise<UserPagination> {
+    const feeds = await this.userRepository.getList(
+      PAGE_NUM,
+      (page - 1) * PAGE_NUM,
+    );
+
+    return new UserPagination({
+      data: feeds,
+      meta: {
+        cur_page: page,
+        next_page: page + 1,
+        page_num: PAGE_NUM,
+      },
+    });
   }
 }

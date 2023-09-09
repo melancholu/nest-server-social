@@ -12,6 +12,8 @@ export interface OnDiskUserRepository {
   getOneByUuid(uuid: string): Promise<User>;
 
   getOneByEmail(email: string): Promise<User>;
+
+  getList(take: number, skip: number): Promise<User[]>;
 }
 
 @Injectable()
@@ -55,5 +57,14 @@ export class OnDiskUserRepositorySource implements OnDiskUserRepository {
     }
 
     return UserEntity.toUser(entity);
+  }
+
+  async getList(take: number, skip: number): Promise<User[]> {
+    const [users] = await this.repository.findAndCount({
+      take,
+      skip,
+    });
+
+    return users.map((userEntity: UserEntity) => UserEntity.toUser(userEntity));
   }
 }

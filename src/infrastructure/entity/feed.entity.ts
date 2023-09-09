@@ -2,7 +2,8 @@ import {
   BeforeInsert,
   Column,
   Entity,
-  ManyToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { generate } from 'short-uuid';
@@ -20,9 +21,10 @@ export class FeedEntity {
   @Column({ type: 'varchar', length: 22 })
   uuid: string;
 
-  @ManyToMany(() => UserEntity, {
+  @ManyToOne(() => UserEntity, {
     nullable: false,
   })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
   @Column({ type: 'text', name: 'content' })
@@ -40,7 +42,11 @@ export class FeedEntity {
 
   static create(feed: Feed): FeedEntity {
     const entity = new FeedEntity();
-    entity.user = feed.user;
+    const userEntity = UserEntity.create(feed.user);
+    // TODO
+    userEntity.id = 8;
+    entity.user = userEntity;
+
     entity.content = feed.content;
 
     return entity;

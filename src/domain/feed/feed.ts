@@ -1,4 +1,5 @@
 import { User } from 'src/domain/user';
+import { IsString } from 'class-validator';
 
 export class Feed {
   readonly uuid: string;
@@ -7,6 +8,7 @@ export class Feed {
 
   readonly created: Date;
 
+  @IsString()
   readonly content: string;
 
   constructor(partial?: Partial<Feed>) {

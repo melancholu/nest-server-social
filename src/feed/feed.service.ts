@@ -20,14 +20,14 @@ export class FeedService {
       (page - 1) * PAGE_NUM,
     );
 
-    return {
+    return new FeedPagination({
       data: feeds,
       meta: {
         cur_page: page,
         next_page: page + 1,
         page_num: PAGE_NUM,
       },
-    };
+    });
   }
 
   save(feed: Feed): Promise<Feed> {

@@ -18,7 +18,7 @@ export class UserEntity {
   @Column({ type: 'varchar', name: 'email', length: 64, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', name: 'password', length: 72 })
+  @Column({ type: 'varchar', name: 'password', length: 72, select: false })
   password: string;
 
   @Column({ type: 'text', name: 'image_url' })
@@ -53,7 +53,7 @@ export class UserEntity {
       name,
       email,
       password,
-      created: created.toUTCString(),
+      created,
     });
   }
 }

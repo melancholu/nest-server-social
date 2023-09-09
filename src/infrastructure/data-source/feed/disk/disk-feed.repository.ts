@@ -21,6 +21,9 @@ export class OnDiskFeedRepositorySource implements OnDiskFeedRepository {
 
   async getList(take: number, skip: number): Promise<Feed[]> {
     const [feeds] = await this.repository.findAndCount({
+      relations: {
+        user: true,
+      },
       take,
       skip,
     });

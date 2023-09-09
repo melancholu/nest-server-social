@@ -20,4 +20,8 @@ export class UserRepositorySource implements UserRepository {
   getOneByEmail(email: string): Promise<User> {
     return this.onDiskUserRepository.getOneByEmail(email);
   }
+
+  getList(take: number, skip: number): Promise<User[]> {
+    return this.onDiskUserRepository.getList(take, skip);
+  }
 }

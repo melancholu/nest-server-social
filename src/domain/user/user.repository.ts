@@ -8,4 +8,6 @@ export interface UserRepository {
   getOneByUuid(uuid: string): Promise<User>;
 
   getOneByEmail(email: string): Promise<User>;
+
+  getList(take: number, skip: number): Promise<User[]>;
 }
