@@ -17,6 +17,9 @@ export class User {
 
   readonly created: Date;
 
+  @Exclude({ toPlainOnly: true })
+  readonly refreshToken: string;
+
   constructor(partial?: Partial<User>) {
     Object.assign(this, partial);
   }

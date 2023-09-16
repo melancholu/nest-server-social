@@ -22,10 +22,6 @@ export class UserService {
     return this.userRepository.getOneByUuid(uuid);
   }
 
-  getOneByEmail(email: string): Promise<User> {
-    return this.userRepository.getOneByEmail(email);
-  }
-
   async getList(page: number): Promise<UserPagination> {
     const feeds = await this.userRepository.getList(
       PAGE_NUM,

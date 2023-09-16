@@ -14,6 +14,8 @@ export interface OnDiskUserRepository {
   getOneByEmail(email: string): Promise<User>;
 
   getList(take: number, skip: number): Promise<User[]>;
+
+  updateRefreshToken(uuid: string, refreshToken: string): Promise<void>;
 }
 
 @Injectable()
@@ -50,7 +52,10 @@ export class OnDiskUserRepositorySource implements OnDiskUserRepository {
   }
 
   async getOneByEmail(email: string): Promise<User> {
-    const entity = await this.repository.findOneBy({ email });
+    const entity = await this.repository.findOne({
+      select: ['id', 'uuid', 'email', 'password', 'created', 'imageUrl'],
+      where: { email },
+    });
 
     if (!entity) {
       return null;
@@ -66,5 +71,14 @@ export class OnDiskUserRepositorySource implements OnDiskUserRepository {
     });
 
     return users.map((userEntity: UserEntity) => UserEntity.toUser(userEntity));
+  }
+
+  async updateRefreshToken(uuid: string, refreshToken: string): Promise<void> {
+    await this.repository
+      .createQueryBuilder()
+      .update(UserEntity)
+      .set({ refreshToken })
+      .where('uuid = :uuid', { uuid })
+      .execute();
   }
 }

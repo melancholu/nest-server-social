@@ -10,4 +10,6 @@ export interface UserRepository {
   getOneByEmail(email: string): Promise<User>;
 
   getList(take: number, skip: number): Promise<User[]>;
+
+  updateRefreshToken(uuid: string, refreshToken: string): Promise<void>;
 }

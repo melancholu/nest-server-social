@@ -7,12 +7,15 @@ import {
   HttpStatus,
   Post,
   Query,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { Feed, FeedPagination } from 'src/domain/feed';
 import { User } from 'src/domain/user';
 import { FeedService } from './feed.service';
 
+@UseGuards(AuthGuard())
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('feed')
 export class FeedController {

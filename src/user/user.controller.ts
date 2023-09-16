@@ -8,8 +8,10 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import * as bcrypt from 'bcrypt';
 import { UserNotFoundException } from 'src/core/exception';
 import { User, UserPagination } from 'src/domain/user';
@@ -20,6 +22,7 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(AuthGuard())
   @Get('/')
   async getList(@Query('page') page = 1): Promise<UserPagination> {
     try {
@@ -32,6 +35,7 @@ export class UserController {
     }
   }
 
+  @UseGuards(AuthGuard())
   @Get('/:uuid')
   async getOne(@Param('uuid') uuid: string): Promise<User> {
     try {
@@ -42,33 +46,6 @@ export class UserController {
       }
 
       return user;
-    } catch (error) {
-      if (error instanceof UserNotFoundException) {
-        throw error;
-      }
-
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  @Post('/login')
-  async login(@Body() user: User): Promise<User> {
-    try {
-      const { email, password } = user;
-      const result = await this.userService.getOneByEmail(email);
-
-      if (result === null) {
-        throw new UserNotFoundException();
-      }
-
-      const { password: hash } = result;
-      const isMatched = await bcrypt.compare(password, hash);
-
-      if (!isMatched) {
-        throw new UserNotFoundException();
-      }
-
-      return new User(result);
     } catch (error) {
       if (error instanceof UserNotFoundException) {
         throw error;
