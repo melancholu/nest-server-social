@@ -24,4 +24,8 @@ export class UserRepositorySource implements UserRepository {
   getList(take: number, skip: number): Promise<User[]> {
     return this.onDiskUserRepository.getList(take, skip);
   }
+
+  updateRefreshToken(uuid: string, refreshToken: string): Promise<void> {
+    return this.onDiskUserRepository.updateRefreshToken(uuid, refreshToken);
+  }
 }

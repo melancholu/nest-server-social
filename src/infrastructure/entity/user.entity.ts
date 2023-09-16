@@ -27,12 +27,16 @@ export class UserEntity {
   @Column({ type: 'timestamp with time zone' })
   created: Date;
 
+  @Column({ type: 'text', name: 'refresh_token', nullable: true })
+  refreshToken: string;
+
   @BeforeInsert()
   beforeInsertActions() {
     const date = new Date();
     this.uuid = generate();
     this.imageUrl = '';
     this.created = date;
+    this.refreshToken = null;
   }
 
   static create(user: User): UserEntity {
@@ -46,7 +50,7 @@ export class UserEntity {
   }
 
   static toUser(entity: UserEntity): User {
-    const { uuid, name, email, password, created } = entity;
+    const { uuid, name, email, password, created, refreshToken } = entity;
 
     return new User({
       uuid,
@@ -54,6 +58,7 @@ export class UserEntity {
       email,
       password,
       created,
+      refreshToken,
     });
   }
 }
