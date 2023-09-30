@@ -13,7 +13,7 @@ import {
   InvalidTokenException,
   UserNotFoundException,
 } from 'src/core/exception';
-import { Token } from 'src/domain/auth';
+import { TokenWithUser } from 'src/domain/auth';
 import { AuthService } from './auth.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
@@ -23,14 +23,17 @@ export class AuthController {
 
   @UseGuards(AuthGuard('local'))
   @Post('/login')
-  async login(@Request() req): Promise<Token> {
+  async login(@Request() req): Promise<TokenWithUser> {
     try {
       const { uuid } = req.user;
       const token = this.authService.getToken(uuid);
 
       await this.authService.updateRefreshToken(uuid, token.refreshToken);
 
-      return token;
+      return {
+        ...token,
+        user: req.user,
+      };
     } catch (error) {
       if (error instanceof UserNotFoundException) {
         throw error;
@@ -54,7 +57,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard('jwt-refresh'))
   @Post('/refresh')
-  async refresh(@Request() req): Promise<Token> {
+  async refresh(@Request() req): Promise<TokenWithUser> {
     try {
       const { uuid, refreshToken } = req.user;
 
@@ -68,7 +71,10 @@ export class AuthController {
 
       await this.authService.updateRefreshToken(uuid, token.refreshToken);
 
-      return token;
+      return {
+        ...token,
+        user: req.user,
+      };
     } catch (error) {
       if (error instanceof InvalidTokenException) {
         throw error;

@@ -53,7 +53,15 @@ export class OnDiskUserRepositorySource implements OnDiskUserRepository {
 
   async getOneByEmail(email: string): Promise<User> {
     const entity = await this.repository.findOne({
-      select: ['id', 'uuid', 'email', 'password', 'created', 'imageUrl'],
+      select: [
+        'id',
+        'uuid',
+        'name',
+        'email',
+        'password',
+        'created',
+        'imageUrl',
+      ],
       where: { email },
     });
 
