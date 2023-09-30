@@ -22,7 +22,7 @@ export class FeedController {
   constructor(private readonly feedService: FeedService) {}
 
   @Get('/')
-  async getList(@Query('page') page = 1): Promise<FeedPagination> {
+  async getList(@Query('page') page: number = 1): Promise<FeedPagination> {
     try {
       if (Number.isNaN(page)) {
         return this.feedService.getList(1);
