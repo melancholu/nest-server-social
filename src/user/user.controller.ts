@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Request,
   Query,
   UseGuards,
   UseInterceptors,
@@ -51,6 +52,18 @@ export class UserController {
         throw error;
       }
 
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @UseGuards(AuthGuard())
+  @Get('/me')
+  async getMe(@Request() req): Promise<User> {
+    try {
+      const { uuid } = req.user;
+
+      return await this.userService.getOneByUuid(uuid);
+    } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
