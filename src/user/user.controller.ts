@@ -25,7 +25,7 @@ export class UserController {
 
   @UseGuards(AuthGuard())
   @Get('/')
-  async getList(@Query('page') page = 1): Promise<UserPagination> {
+  async getList(@Query('page') page: number = 1): Promise<UserPagination> {
     try {
       if (Number.isNaN(page)) {
         return this.userService.getList(1);
