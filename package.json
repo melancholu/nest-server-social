@@ -19,7 +19,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "auth": "aws ecr get-login-password --profile=${AWS_PROFILE} --region ${REGION} | docker login --username AWS --password-stdin ${ECR_REPOSITORY_URI}",
+    "push": "yarn auth && docker compose -f docker/compose/prod.yml build && docker compose -f docker/compose/prod.yml push"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",

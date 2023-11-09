@@ -4,12 +4,25 @@ volumes:
   local_postgres: {}
 
 services:
+  node:
+    build:
+      context: ../../
+      dockerfile: './docker/images/Dockerfile'
+    image: local_node_api
+    container_name: local_node_api
+    depends_on:
+      - postgres
+    env_file:
+      - ../env/.local
+    ports:
+      - '3000:3000'
+
   postgres:
     image: postgres:14.3-alpine
     container_name: local_postgres
     volumes:
       - local_postgres:/var/lib/postgresql/data:Z
     env_file:
-      - ../../.env
+      - ../env/.local
     ports:
       - '5432:5432'

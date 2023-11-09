@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  node:
+    build:
+      context: ../../
+      dockerfile: './docker/images/Dockerfile'
+    image: '${ECR_REPOSITORY_URI}/${ECR_REPOSITORY_NAME}:latest'
+    ports:
+      - '3000:3000'
