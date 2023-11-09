@@ -19,6 +19,7 @@ export const typeOrmOptions: TypeOrmModuleAsyncOptions = {
          */
         idleTimeoutMillis: 3000,
         max: 30,
+        ssl: { rejectUnauthorized: false },
       },
       synchronize: true,
     };
