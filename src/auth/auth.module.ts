@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { UserModule } from 'src/infrastructure/data-source/user';
+import { UserDataSourceModule } from 'src/infrastructure/repository/user';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { AccessStrategy, LocalStrategy, RefreshStrategy } from './strategy';
@@ -22,7 +22,7 @@ import { AccessStrategy, LocalStrategy, RefreshStrategy } from './strategy';
       }),
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    UserModule,
+    UserDataSourceModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, AccessStrategy, LocalStrategy, RefreshStrategy],

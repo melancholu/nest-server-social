@@ -1,6 +1,6 @@
 import { Feed } from './feed';
 
-export const FEED_REPOSITORY = 'feed';
+export const FEED_REPOSITORY = 'FEED_REPOSITORY';
 
 export interface FeedRepository {
   getList(take: number, skip: number): Promise<Feed[]>;

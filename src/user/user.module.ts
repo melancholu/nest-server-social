@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { UserModule as UserDataSourceModule } from 'src/infrastructure/data-source/user';
+import { UserDataSourceModule } from 'src/infrastructure/repository/user';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
