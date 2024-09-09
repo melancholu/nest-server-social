@@ -7,19 +7,17 @@ export const typeOrmOptions: TypeOrmModuleAsyncOptions = {
   useFactory: (configService: ConfigService) => {
     return {
       type: 'postgres',
+      ssl: false,
       database: configService.get('POSTGRES_DB'),
       host: configService.get('POSTGRES_HOST'),
       password: configService.get('POSTGRES_PASSWORD'),
       port: +configService.get('POSTGRES_PORT'),
       username: configService.get('POSTGRES_USER'),
-      entities: [FeedEntity, UserEntity],
+      entities: ['dist/**/*.entity.js'],
+      autoLoadEntities: true,
       extra: {
-        /**
-         * https://node-postgres.com/api/pool
-         */
-        idleTimeoutMillis: 3000,
-        max: 30,
-        ssl: { rejectUnauthorized: false },
+        statement_timeout: 120_000,
+        max: 60,
       },
       synchronize: true,
     };

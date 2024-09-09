@@ -1,6 +1,6 @@
 import { User } from './user';
 
-export const USER_REPOSITORY = 'user_repository';
+export const USER_REPOSITORY = 'USER_REPOSITORY';
 
 export interface UserRepository {
   save(user: User): Promise<User>;

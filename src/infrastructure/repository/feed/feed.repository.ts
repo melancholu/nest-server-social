@@ -2,18 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FeedEntity } from 'src/infrastructure/entity';
-import { Feed } from 'src/domain/feed';
-
-export const ON_DISK_FEED_REPOSITORY = 'on_disk_feed_repository';
-
-export interface OnDiskFeedRepository {
-  getList(take: number, skip: number): Promise<Feed[]>;
-
-  save(feed: Feed): Promise<Feed>;
-}
+import { Feed, FeedRepository } from 'src/domain/feed';
 
 @Injectable()
-export class OnDiskFeedRepositorySource implements OnDiskFeedRepository {
+export class FeedRepositorySource implements FeedRepository {
   constructor(
     @InjectRepository(FeedEntity)
     private readonly repository: Repository<FeedEntity>,

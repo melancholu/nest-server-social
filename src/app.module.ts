@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { RDBModule } from 'src/infrastructure/accessor/rdb';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmOptions } from 'src/core/config/rdb.config';
 import { AuthModule } from './auth';
 import { FeedModule } from './feed';
 import { UserModule } from './user';
@@ -8,7 +9,7 @@ import { UserModule } from './user';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    RDBModule,
+    TypeOrmModule.forRootAsync(typeOrmOptions),
     AuthModule,
     FeedModule,
     UserModule,

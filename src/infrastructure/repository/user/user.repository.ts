@@ -2,24 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from 'src/infrastructure/entity';
-import { User } from 'src/domain/user';
-
-export const ON_DISK_USER_REPOSITORY = 'on_disk_user_repository';
-
-export interface OnDiskUserRepository {
-  save(user: User): Promise<User>;
-
-  getOneByUuid(uuid: string): Promise<User>;
-
-  getOneByEmail(email: string): Promise<User>;
-
-  getList(take: number, skip: number): Promise<User[]>;
-
-  updateRefreshToken(uuid: string, refreshToken: string): Promise<void>;
-}
+import { User, UserRepository } from 'src/domain/user';
 
 @Injectable()
-export class OnDiskUserRepositorySource implements OnDiskUserRepository {
+export class UserRepositorySource implements UserRepository {
   constructor(
     @InjectRepository(UserEntity)
     private readonly repository: Repository<UserEntity>,
