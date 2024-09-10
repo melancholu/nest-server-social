@@ -39,8 +39,9 @@ export class UserEntity {
     this.refreshToken = null;
   }
 
-  static create(user: User): UserEntity {
+  static from(user: User): UserEntity {
     const entity = new UserEntity();
+
     entity.name = user.name;
     entity.email = user.email;
     entity.password = user.password;
@@ -49,8 +50,8 @@ export class UserEntity {
     return entity;
   }
 
-  static toUser(entity: UserEntity): User {
-    const { uuid, name, email, password, created, refreshToken } = entity;
+  static to(userEntity: UserEntity): User {
+    const { uuid, name, email, password, created, refreshToken } = userEntity;
 
     return new User({
       uuid,

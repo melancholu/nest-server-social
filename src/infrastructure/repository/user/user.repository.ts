@@ -12,7 +12,7 @@ export class UserRepositorySource implements UserRepository {
   ) {}
 
   async save(user: User): Promise<User> {
-    const entity = UserEntity.create(user);
+    const entity = UserEntity.from(user);
 
     await this.repository
       .createQueryBuilder()
@@ -34,7 +34,7 @@ export class UserRepositorySource implements UserRepository {
       return null;
     }
 
-    return UserEntity.toUser(entity);
+    return UserEntity.to(entity);
   }
 
   async getOneByEmail(email: string): Promise<User> {
@@ -55,7 +55,7 @@ export class UserRepositorySource implements UserRepository {
       return null;
     }
 
-    return UserEntity.toUser(entity);
+    return UserEntity.to(entity);
   }
 
   async getList(take: number, skip: number): Promise<User[]> {
@@ -64,7 +64,7 @@ export class UserRepositorySource implements UserRepository {
       skip,
     });
 
-    return users.map((userEntity: UserEntity) => UserEntity.toUser(userEntity));
+    return users.map((userEntity: UserEntity) => UserEntity.to(userEntity));
   }
 
   async updateRefreshToken(uuid: string, refreshToken: string): Promise<void> {

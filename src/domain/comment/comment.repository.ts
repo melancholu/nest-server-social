@@ -1,0 +1,7 @@
+import { Comment } from './comment';
+
+export const COMMENT_REPOSITORY = 'COMMENT_REPOSITORY';
+
+export interface CommentRepository {
+  getList(feedUuid: string, take: number, skip: number): Promise<Comment[]>;
+}
