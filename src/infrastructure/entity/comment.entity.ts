@@ -7,19 +7,26 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { generate } from 'short-uuid';
+import { Comment } from 'src/domain/comment';
 import { Feed } from 'src/domain/feed';
 import { User } from 'src/domain/user';
-import { UserEntity } from 'src/infrastructure/entity';
+import { FeedEntity, UserEntity } from 'src/infrastructure/entity';
 
 @Entity({
-  name: 'feed',
+  name: 'comment',
 })
-export class FeedEntity {
+export class CommentEntity {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;
 
   @Column({ type: 'varchar', length: 22 })
   uuid: string;
+
+  @ManyToOne(() => FeedEntity, {
+    nullable: false,
+  })
+  @JoinColumn({ name: 'feed_id', referencedColumnName: 'id' })
+  feed: Feed;
 
   @ManyToOne(() => UserEntity, {
     nullable: false,
@@ -40,21 +47,22 @@ export class FeedEntity {
     this.created = date;
   }
 
-  static from(feed: Feed): FeedEntity {
-    const entity = new FeedEntity();
+  static from(comment: Comment): CommentEntity {
+    const entity = new CommentEntity();
 
-    entity.uuid = feed.uuid;
-    entity.user = feed.user;
-    entity.content = feed.content;
+    entity.feed = comment.feed;
+    entity.user = comment.user;
+    entity.content = comment.content;
 
     return entity;
   }
 
-  static to(feedEntity: FeedEntity): Feed {
-    const { uuid, user, content, created } = feedEntity;
+  static to(commentEntity: CommentEntity): Comment {
+    const { uuid, feed, user, content, created } = commentEntity;
 
-    return new Feed({
+    return new Comment({
       uuid,
+      feed,
       user,
       content,
       created,

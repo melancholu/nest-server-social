@@ -24,7 +24,7 @@ export class FeedRepositorySource implements FeedRepository {
   }
 
   async save(feed: Feed): Promise<Feed> {
-    const entity = FeedEntity.create(feed);
+    const entity = FeedEntity.from(feed);
 
     await this.repository
       .createQueryBuilder()
