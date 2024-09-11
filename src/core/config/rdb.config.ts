@@ -1,6 +1,5 @@
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
-import { FeedEntity, UserEntity } from 'src/infrastructure/entity';
 
 export const typeOrmOptions: TypeOrmModuleAsyncOptions = {
   inject: [ConfigService],
