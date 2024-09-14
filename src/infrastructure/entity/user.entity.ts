@@ -51,9 +51,11 @@ export class UserEntity {
   }
 
   static to(userEntity: UserEntity): User {
-    const { uuid, name, email, password, created, refreshToken } = userEntity;
+    const { id, uuid, name, email, password, created, refreshToken } =
+      userEntity;
 
     return new User({
+      id,
       uuid,
       name,
       email,

@@ -11,6 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { UserInfo } from 'src/core/decorator/user.decorator';
 import { Feed, FeedPagination } from 'src/domain/feed';
 import { User } from 'src/domain/user';
 import { FeedService } from './feed.service';
@@ -34,11 +35,11 @@ export class FeedController {
   }
 
   @Post('/')
-  async save(@Body() feed: Feed): Promise<Feed> {
+  async save(@UserInfo() userInfo: User, @Body() feed: Feed): Promise<Feed> {
     try {
       const result = await this.feedService.save({
         ...feed,
-        user: new User({ name: 'test1', email: 'ehdgur0822@naver.com' }),
+        user: new User({ uuid: userInfo.uuid }),
       });
 
       return result;

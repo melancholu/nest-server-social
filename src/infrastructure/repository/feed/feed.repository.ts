@@ -26,16 +26,17 @@ export class FeedRepositorySource implements FeedRepository {
   async save(feed: Feed): Promise<Feed> {
     const entity = FeedEntity.from(feed);
 
-    await this.repository
+    const result = await this.repository
       .createQueryBuilder()
       .insert()
       .into(FeedEntity)
       .values(entity)
+      .returning('uuid')
       .execute();
 
     return {
       ...feed,
-      uuid: entity.uuid,
+      uuid: result.raw[0].uuid,
     };
   }
 }
