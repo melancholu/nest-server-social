@@ -11,6 +11,16 @@ export class FeedRepositorySource implements FeedRepository {
     private readonly repository: Repository<FeedEntity>,
   ) {}
 
+  async getOneByUuid(uuid: string): Promise<Feed> {
+    const entity = await this.repository.findOneBy({ uuid });
+
+    if (!entity) {
+      return null;
+    }
+
+    return FeedEntity.to(entity);
+  }
+
   async getList(take: number, skip: number): Promise<Feed[]> {
     const [feeds] = await this.repository.findAndCount({
       relations: {

@@ -18,4 +18,21 @@ export class CommentRepositorySource implements CommentRepository {
   ): Promise<Comment[]> {
     return [];
   }
+
+  async save(comment: Comment): Promise<Comment> {
+    const entity = CommentEntity.from(comment);
+
+    const result = await this.repository
+      .createQueryBuilder()
+      .insert()
+      .into(CommentEntity)
+      .values(entity)
+      .returning('uuid')
+      .execute();
+
+    return {
+      ...comment,
+      uuid: result.raw[0].uuid,
+    };
+  }
 }

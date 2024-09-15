@@ -51,9 +51,10 @@ export class FeedEntity {
   }
 
   static to(feedEntity: FeedEntity): Feed {
-    const { uuid, user, content, created } = feedEntity;
+    const { id, uuid, user, content, created } = feedEntity;
 
     return new Feed({
+      id,
       uuid,
       user,
       content,
