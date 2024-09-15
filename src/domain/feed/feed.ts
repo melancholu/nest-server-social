@@ -1,7 +1,11 @@
-import { User } from 'src/domain/user';
+import { Exclude } from 'class-transformer';
 import { IsString } from 'class-validator';
+import { User } from 'src/domain/user';
 
 export class Feed {
+  @Exclude()
+  readonly id: number;
+
   readonly uuid: string;
 
   readonly user: User;

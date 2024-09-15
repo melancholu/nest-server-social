@@ -1,20 +1,24 @@
 import {
+  Body,
   ClassSerializerInterceptor,
   Controller,
   Get,
   HttpException,
   HttpStatus,
+  Post,
   Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CommentPagination } from 'src/domain/comment';
+import { UserInfo } from 'src/core/decorator/user.decorator';
+import { Comment, CommentPagination } from 'src/domain/comment';
+import { User } from 'src/domain/user';
 import { CommentService } from './comment.service';
 
 @UseGuards(AuthGuard())
 @UseInterceptors(ClassSerializerInterceptor)
-@Controller('feed')
+@Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
@@ -33,6 +37,24 @@ export class CommentController {
 
       return this.commentService.getList(feed, page);
     } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Post('/')
+  async save(
+    @UserInfo() userInfo: User,
+    @Body() comment: Comment,
+  ): Promise<Comment> {
+    try {
+      const result = await this.commentService.save({
+        ...comment,
+        user: new User({ uuid: userInfo.uuid }),
+      });
+
+      return result;
+    } catch (error) {
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }

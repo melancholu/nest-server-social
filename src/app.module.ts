@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmOptions } from 'src/core/config/rdb.config';
 import { AuthModule } from './auth';
+import { CommentModule } from './comment';
 import { FeedModule } from './feed';
 import { UserModule } from './user';
 
@@ -11,6 +12,7 @@ import { UserModule } from './user';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync(typeOrmOptions),
     AuthModule,
+    CommentModule,
     FeedModule,
     UserModule,
   ],
