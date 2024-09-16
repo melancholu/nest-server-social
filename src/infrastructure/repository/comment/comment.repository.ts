@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Comment, CommentRepository } from 'src/domain/comment';
+import { Feed } from 'src/domain/feed';
 import { CommentEntity } from 'src/infrastructure/entity';
 
 @Injectable()
@@ -16,7 +17,16 @@ export class CommentRepositorySource implements CommentRepository {
     take: number,
     skip: number,
   ): Promise<Comment[]> {
-    return [];
+    const [comments] = await this.repository.findAndCount({
+      relations: {
+        user: true,
+      },
+      where: { feed: new Feed({ uuid: feedUuid }) },
+      take,
+      skip,
+    });
+
+    return comments;
   }
 
   async save(comment: Comment): Promise<Comment> {
@@ -27,12 +37,13 @@ export class CommentRepositorySource implements CommentRepository {
       .insert()
       .into(CommentEntity)
       .values(entity)
-      .returning('uuid')
+      .returning('*')
       .execute();
 
     return {
       ...comment,
       uuid: result.raw[0].uuid,
+      created: result.raw[0].created,
     };
   }
 }
