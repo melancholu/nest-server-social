@@ -1,12 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { Comment, Pagination } from 'src/domain/dto';
 import {
-  Comment,
   COMMENT_REPOSITORY,
   CommentRepository,
-  CommentPagination,
-} from 'src/domain/comment';
-import { FEED_REPOSITORY, FeedRepository } from 'src/domain/feed';
-import { USER_REPOSITORY, UserRepository } from 'src/domain/user';
+  FEED_REPOSITORY,
+  FeedRepository,
+  USER_REPOSITORY,
+  UserRepository,
+} from 'src/domain/repository';
 import { PAGE_NUM } from './comment.constant';
 
 @Injectable()
@@ -20,14 +21,14 @@ export class CommentService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async getList(feedUuid: string, page: number): Promise<CommentPagination> {
+  async getList(feedUuid: string, page: number): Promise<Pagination<Comment>> {
     const comments = await this.commentRepository.getList(
       feedUuid,
       PAGE_NUM,
       (page - 1) * PAGE_NUM,
     );
 
-    return new CommentPagination({
+    return new Pagination<Comment>({
       data: comments,
       meta: {
         cur_page: page,

@@ -1,5 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { User, UserRepository, USER_REPOSITORY } from 'src/domain/user';
+import { User } from 'src/domain/dto';
+import { USER_REPOSITORY, UserRepository } from 'src/domain/repository';
 import { UserController } from '../user.controller';
 import { UserService } from '../user.service';
 

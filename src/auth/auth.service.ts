@@ -6,8 +6,8 @@ import {
   InvalidTokenException,
   UserNotFoundException,
 } from 'src/core/exception';
-import { JwtPayload, Token } from 'src/domain/auth';
-import { USER_REPOSITORY, UserRepository, User } from 'src/domain/user';
+import { JwtPayload, Token, User } from 'src/domain/dto';
+import { USER_REPOSITORY, UserRepository } from 'src/domain/repository';
 
 @Injectable()
 export class AuthService {

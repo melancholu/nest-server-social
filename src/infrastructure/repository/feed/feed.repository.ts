@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FeedEntity } from 'src/infrastructure/entity';
-import { Feed, FeedRepository } from 'src/domain/feed';
+import { Feed } from 'src/domain/dto';
+import { FeedRepository } from 'src/domain/repository';
 
 @Injectable()
 export class FeedRepositorySource implements FeedRepository {

@@ -15,7 +15,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import * as bcrypt from 'bcrypt';
 import { UserNotFoundException } from 'src/core/exception';
-import { User, UserPagination } from 'src/domain/user';
+import { User, Pagination } from 'src/domain/dto';
 import { UserService } from './user.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
@@ -25,7 +25,7 @@ export class UserController {
 
   @UseGuards(AuthGuard())
   @Get('/')
-  async getList(@Query('page') page: number = 1): Promise<UserPagination> {
+  async getList(@Query('page') page: number = 1): Promise<Pagination<User>> {
     try {
       if (Number.isNaN(page)) {
         return this.userService.getList(1);

@@ -13,7 +13,7 @@ import {
   InvalidTokenException,
   UserNotFoundException,
 } from 'src/core/exception';
-import { Token, TokenWithUser } from 'src/domain/auth';
+import { Token, TokenWithUser } from 'src/domain/dto';
 import { AuthService } from './auth.service';
 
 @UseInterceptors(ClassSerializerInterceptor)

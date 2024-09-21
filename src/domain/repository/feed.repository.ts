@@ -1,4 +1,4 @@
-import { Feed } from './feed';
+import { Feed } from '../dto/feed';
 
 export const FEED_REPOSITORY = 'FEED_REPOSITORY';
 

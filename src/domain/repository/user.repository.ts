@@ -1,4 +1,4 @@
-import { User } from './user';
+import { User } from '../dto/user';
 
 export const USER_REPOSITORY = 'USER_REPOSITORY';
 

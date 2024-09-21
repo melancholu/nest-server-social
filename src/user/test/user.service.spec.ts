@@ -1,6 +1,7 @@
 import { PassportModule } from '@nestjs/passport';
 import { Test } from '@nestjs/testing';
-import { User, UserRepository, USER_REPOSITORY } from 'src/domain/user';
+import { User } from 'src/domain/dto';
+import { USER_REPOSITORY, UserRepository } from 'src/domain/repository';
 import { UserService } from '../user.service';
 
 describe('UserService', () => {

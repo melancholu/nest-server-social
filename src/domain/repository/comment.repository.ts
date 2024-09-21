@@ -1,4 +1,4 @@
-import { Comment } from './comment';
+import { Comment } from '../dto/comment';
 
 export const COMMENT_REPOSITORY = 'COMMENT_REPOSITORY';
 

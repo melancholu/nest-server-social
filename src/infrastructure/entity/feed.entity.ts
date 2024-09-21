@@ -7,8 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { generate } from 'short-uuid';
-import { Feed } from 'src/domain/feed';
-import { User } from 'src/domain/user';
+import { Feed, User } from 'src/domain/dto';
 import { UserEntity } from 'src/infrastructure/entity';
 
 @Entity({

@@ -1,10 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import {
-  USER_REPOSITORY,
-  UserRepository,
-  User,
-  UserPagination,
-} from 'src/domain/user';
+import { User, Pagination } from 'src/domain/dto';
+import { USER_REPOSITORY, UserRepository } from 'src/domain/repository';
 import { PAGE_NUM } from './user.constant';
 
 @Injectable()
@@ -22,13 +18,13 @@ export class UserService {
     return this.userRepository.getOneByUuid(uuid);
   }
 
-  async getList(page: number): Promise<UserPagination> {
+  async getList(page: number): Promise<Pagination<User>> {
     const feeds = await this.userRepository.getList(
       PAGE_NUM,
       (page - 1) * PAGE_NUM,
     );
 
-    return new UserPagination({
+    return new Pagination<User>({
       data: feeds,
       meta: {
         cur_page: page,

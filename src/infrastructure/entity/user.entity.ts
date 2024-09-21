@@ -1,6 +1,6 @@
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { generate } from 'short-uuid';
-import { User } from 'src/domain/user';
+import { User } from 'src/domain/dto';
 
 @Entity({
   name: 'user',

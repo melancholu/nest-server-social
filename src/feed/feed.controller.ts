@@ -12,8 +12,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserInfo } from 'src/core/decorator/user.decorator';
-import { Feed, FeedPagination } from 'src/domain/feed';
-import { User } from 'src/domain/user';
+import { Feed, Pagination, User } from 'src/domain/dto';
 import { FeedService } from './feed.service';
 
 @UseGuards(AuthGuard())
@@ -23,7 +22,7 @@ export class FeedController {
   constructor(private readonly feedService: FeedService) {}
 
   @Get('/')
-  async getList(@Query('page') page: number = 1): Promise<FeedPagination> {
+  async getList(@Query('page') page: number = 1): Promise<Pagination<Feed>> {
     try {
       if (Number.isNaN(page)) {
         return this.feedService.getList(1);

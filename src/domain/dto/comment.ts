@@ -1,5 +1,4 @@
-import { Feed } from 'src/domain/feed';
-import { User } from 'src/domain/user';
+import { Feed, User } from 'src/domain/dto';
 import { IsString } from 'class-validator';
 
 export class Comment {

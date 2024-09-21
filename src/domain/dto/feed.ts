@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { IsString } from 'class-validator';
-import { User } from 'src/domain/user';
+import { User } from 'src/domain/dto';
 
 export class Feed {
   @Exclude()

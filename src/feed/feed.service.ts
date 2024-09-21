@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { Feed, Pagination } from 'src/domain/dto';
 import {
   FEED_REPOSITORY,
   FeedRepository,
-  Feed,
-  FeedPagination,
-} from 'src/domain/feed';
-import { USER_REPOSITORY, UserRepository } from 'src/domain/user';
+  USER_REPOSITORY,
+  UserRepository,
+} from 'src/domain/repository';
 import { PAGE_NUM } from './feed.constant';
 
 @Injectable()
@@ -17,13 +17,13 @@ export class FeedService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async getList(page: number): Promise<FeedPagination> {
+  async getList(page: number): Promise<Pagination<Feed>> {
     const feeds = await this.feedRepository.getList(
       PAGE_NUM,
       (page - 1) * PAGE_NUM,
     );
 
-    return new FeedPagination({
+    return new Pagination<Feed>({
       data: feeds,
       meta: {
         cur_page: page,

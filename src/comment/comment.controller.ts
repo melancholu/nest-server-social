@@ -12,8 +12,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserInfo } from 'src/core/decorator/user.decorator';
-import { Comment, CommentPagination } from 'src/domain/comment';
-import { User } from 'src/domain/user';
+import { Comment, Pagination, User } from 'src/domain/dto';
 import { CommentService } from './comment.service';
 
 @UseGuards(AuthGuard())
@@ -26,7 +25,7 @@ export class CommentController {
   async getList(
     @Query('feed') feed: string,
     @Query('page') page: number = 1,
-  ): Promise<CommentPagination> {
+  ): Promise<Pagination<Comment>> {
     try {
       if (feed === undefined) {
         throw new Error('feed is required');
@@ -54,7 +53,6 @@ export class CommentController {
 
       return result;
     } catch (error) {
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
