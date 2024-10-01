@@ -9,14 +9,14 @@ import { JwtPayload } from 'src/domain/dto';
 export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(readonly configService: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromBodyField('refreshToken'),
       secretOrKey: configService.get('JWT_REFRESH_TOKEN_SECRET'),
       passReqToCallback: true,
     });
   }
 
   async validate(req: Request, payload: JwtPayload) {
-    const refreshToken = req.get('authorization').split('Bearer ')[1];
+    const { refreshToken } = req.body;
 
     return { ...payload, refreshToken };
   }
