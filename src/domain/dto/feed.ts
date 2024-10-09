@@ -12,6 +12,10 @@ export class Feed {
 
   readonly created: Date;
 
+  readonly likes: number;
+
+  readonly liked: boolean;
+
   @IsString()
   readonly content: string;
 

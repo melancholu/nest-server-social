@@ -21,10 +21,12 @@ export class FeedService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async getList(page: number): Promise<Pagination<Feed>> {
+  async getList(page: number, userUuid: string): Promise<Pagination<Feed>> {
+    const user = await this.userRepository.getOneByUuid(userUuid);
     const feeds = await this.feedRepository.getList(
       PAGE_NUM,
       (page - 1) * PAGE_NUM,
+      user.id,
     );
 
     return new Pagination<Feed>({
