@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserInfo } from 'src/core/decorator/user.decorator';
-import { Feed, Pagination, User } from 'src/domain/dto';
+import { Feed, Like, Pagination, User } from 'src/domain/dto';
 import { FeedService } from './feed.service';
 
 @UseGuards(AuthGuard())
@@ -43,6 +43,16 @@ export class FeedController {
 
       return result;
     } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Post('like')
+  async like(@UserInfo() userInfo: User, @Body() feed: Feed): Promise<void> {
+    try {
+      await this.feedService.like(feed, userInfo.uuid);
+    } catch (error) {
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
