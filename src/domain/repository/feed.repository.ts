@@ -5,7 +5,7 @@ export const FEED_REPOSITORY = 'FEED_REPOSITORY';
 export interface FeedRepository {
   getOneByUuid(uuid: string): Promise<Feed>;
 
-  getList(take: number, skip: number): Promise<Feed[]>;
+  getList(take: number, skip: number, userId?: number): Promise<Feed[]>;
 
   save(feed: Feed): Promise<Feed>;
 }

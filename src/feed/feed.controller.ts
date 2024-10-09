@@ -22,13 +22,17 @@ export class FeedController {
   constructor(private readonly feedService: FeedService) {}
 
   @Get('/')
-  async getList(@Query('page') page: number = 1): Promise<Pagination<Feed>> {
+  async getList(
+    @UserInfo() userInfo: User,
+    @Query('page') page: number = 1,
+  ): Promise<Pagination<Feed>> {
     try {
       if (Number.isNaN(page)) {
-        return this.feedService.getList(1);
+        return this.feedService.getList(1, userInfo.uuid);
       }
-      return this.feedService.getList(page);
+      return this.feedService.getList(page, userInfo.uuid);
     } catch (error) {
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -52,7 +56,6 @@ export class FeedController {
     try {
       await this.feedService.like(feed, userInfo.uuid);
     } catch (error) {
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
