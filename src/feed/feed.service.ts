@@ -1,8 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Feed, Pagination } from 'src/domain/dto';
+import { Feed, Like, Pagination } from 'src/domain/dto';
 import {
   FEED_REPOSITORY,
   FeedRepository,
+  LIKE_REPOSITORY,
+  LikeRepository,
   USER_REPOSITORY,
   UserRepository,
 } from 'src/domain/repository';
@@ -13,6 +15,8 @@ export class FeedService {
   constructor(
     @Inject(FEED_REPOSITORY)
     private readonly feedRepository: FeedRepository,
+    @Inject(LIKE_REPOSITORY)
+    private readonly likeRepository: LikeRepository,
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
   ) {}
@@ -41,5 +45,19 @@ export class FeedService {
       ...feed,
       user,
     });
+  }
+
+  async like(_feed: Feed, userUuid: string): Promise<void> {
+    const feed = await this.feedRepository.getOneByUuid(_feed.uuid);
+    const user = await this.userRepository.getOneByUuid(userUuid);
+    const prevLike = await this.likeRepository.getOneByFeedAndUser(feed, user);
+
+    await this.likeRepository.like(
+      new Like({
+        feed,
+        user,
+        isActive: prevLike === null ? true : !prevLike.isActive,
+      }),
+    );
   }
 }

@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import { generate } from 'short-uuid';
 import { Feed, Like, User } from 'src/domain/dto';
@@ -13,6 +14,7 @@ import { FeedEntity, UserEntity } from 'src/infrastructure/entity';
 @Entity({
   name: 'like',
 })
+@Unique(['feed', 'user'])
 export class LikeEntity {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;
@@ -48,15 +50,15 @@ export class LikeEntity {
   static from(like: Like): LikeEntity {
     const entity = new LikeEntity();
 
-    entity.uuid = like.uuid;
     entity.feed = like.feed;
     entity.user = like.user;
+    entity.isActive = like.isActive;
 
     return entity;
   }
 
   static to(likeEntity: LikeEntity): Like {
-    const { id, uuid, feed, user, created } = likeEntity;
+    const { id, uuid, feed, user, created, isActive } = likeEntity;
 
     return new Like({
       id,
@@ -64,6 +66,7 @@ export class LikeEntity {
       feed,
       user,
       created,
+      isActive,
     });
   }
 }

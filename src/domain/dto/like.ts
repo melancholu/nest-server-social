@@ -13,6 +13,9 @@ export class Like {
 
   readonly created: Date;
 
+  @Exclude()
+  readonly isActive: boolean;
+
   constructor(partial?: Partial<Like>) {
     Object.assign(this, partial);
   }

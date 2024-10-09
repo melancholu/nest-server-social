@@ -1,9 +1,9 @@
-import { Like } from '../dto/like';
+import { Feed, Like, User } from '../dto';
 
 export const LIKE_REPOSITORY = 'LIKE_REPOSITORY';
 
 export interface LikeRepository {
-  like(like: Like): Promise<void>;
+  getOneByFeedAndUser(feed: Feed, user: User): Promise<Like>;
 
-  unlike(like: Like): Promise<void>;
+  like(like: Like): Promise<void>;
 }
