@@ -9,7 +9,7 @@ export class UserEntity {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;
 
-  @Column({ type: 'varchar', length: 22 })
+  @Column({ type: 'varchar', length: 22, unique: true })
   uuid: string;
 
   @Column({ type: 'varchar', name: 'name', length: 20, unique: true })

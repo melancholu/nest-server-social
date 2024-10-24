@@ -13,12 +13,14 @@ export const typeOrmOptions: TypeOrmModuleAsyncOptions = {
       port: +configService.get('POSTGRES_PORT'),
       username: configService.get('POSTGRES_USER'),
       entities: ['dist/**/*.entity.js'],
+      migrations: ['dist/migrations/*{.ts,.js}'],
+      migrationsTableName: 'migrations',
+      migrationsRun: true,
       autoLoadEntities: true,
       extra: {
         statement_timeout: 120_000,
         max: 60,
       },
-      synchronize: true,
     };
   },
 };

@@ -17,7 +17,7 @@ export class FeedEntity {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;
 
-  @Column({ type: 'varchar', length: 22 })
+  @Column({ type: 'varchar', length: 22, unique: true })
   uuid: string;
 
   @ManyToOne(() => UserEntity, {
