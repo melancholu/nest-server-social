@@ -57,10 +57,10 @@ export class FeedRepositorySource implements FeedRepository {
           name: feed.user_name,
           email: feed.user_email,
           imageUrl: feed.user_image_url,
-          created: feed.user_created_at,
+          created: feed.user_created,
         }),
         content: feed.feed_content,
-        created: feed.feed_created_at,
+        created: feed.feed_created,
         likes: feed.likes,
         liked: feed.liked,
       };
